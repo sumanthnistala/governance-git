@@ -100,7 +100,7 @@ const Navbar = () => {
         <div className="text-white font-bold text-lg">Governance</div>
         <div className="space-x-4">
           {isAdmin && <Dropdown /> }
-          {/* {!isAdmin && <MemberDropdown />} */}
+          {!isAdmin && <MemberDropdown />}
           <MemberDropdown></MemberDropdown>
           <button onClick={disconnectWallet} className="bg-white text-black-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded">Disconnect Wallet</button>
         </div>
