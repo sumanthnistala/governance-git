@@ -28,8 +28,8 @@ const WithdrawStake = () => {
       );
           setContract(contractInstance);
 
-          const accounts = await web3Provider.listAccounts();
-          setAccount(accounts[0]);
+          const amount = await contractInstance.getMyStake();
+          setAmount(amount);
         } catch (error) {
           console.error("Error connecting to metamask", error);
         }
@@ -57,6 +57,7 @@ const WithdrawStake = () => {
       <div className="bg-white p-6 rounded shadow-md text-black w-full max-w-md">
         <h6 className="text-xl mb-6 text-center">Withdraw Stake</h6>
         <div className="flex flex-col items-center justify-center">
+          <label>My balance {}</label>
         <input className="m-3 h-12"
         type="number"
         placeholder="Amount in MATIC"
@@ -67,14 +68,6 @@ const WithdrawStake = () => {
       </div>
       </div>
     </div>
-      {/* <h1>Withdraw Stake</h1>
-      <input
-        type="number"
-        placeholder="Amount in ETH"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
-      <button onClick={handleWithdrawStake}>Withdraw Stake</button> */}
     </Layout>
   );
 };

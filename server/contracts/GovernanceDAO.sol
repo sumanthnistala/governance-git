@@ -352,7 +352,7 @@ contract GovernanceDAO is IVote, IProposal, IGovernance, IStake
         isDistributed[proposalIndex]=false;
     }
 
-    function getMyStake() external view onlyMember returns(uint amount)
+    function getMyStake() external view returns(uint amount)
     {
         return stakes[msg.sender];
     }

@@ -44,7 +44,10 @@ const Vote = () => {
       const proposalsArray = [];
       for (let i = 0; i < proposalCount; i++) {
         const proposal = await contractInstance.proposals(i);
-        proposalsArray.push(proposal);
+        if(!proposal.isExecuted)
+          {
+            proposalsArray.push(proposal);
+          }
       }
       setProposals(proposalsArray);
     };
@@ -77,6 +80,7 @@ const Vote = () => {
     if(selectedChoice === "")
     {
       alert("choice should not be null");
+      return;
     }
     if (account == 0 || amount < 0) {
       alert("Amount should not be be zero or negitive");
@@ -92,18 +96,21 @@ const Vote = () => {
         return;
     }
     alert(
-      "Wallet will ask for two transaction Cofirmations. Please confirm two transactions 1) Vote and 2) Stake"
+      "Wallet will ask for three transaction Cofirmations. Please confirm two transactions 1) Vote and 2) Deposit money into contract 3) Adding Stake for your vote"
     );
 
     await contract.connect(signer).voteSingleChoice(index, selectedChoice);
     const amountValue = ethers.parseEther(amount);
     await contract.connect(signer).deposit({ value: amountValue });
+    await contract.stake(amount);
+    alert("Voted Successfully. Please wait for sometime to update");
   };
 
   const handleVoteMultipleChoice = async () => {
     if(selectedChoices.length <2)
     {
       alert("Minimum two choices should be selected for Multiple Choice");
+      return;
     }
     if (account == 0 || amount < 0) {
       console.log()
@@ -119,7 +126,7 @@ const Vote = () => {
         return;
     }
     alert(
-      "Wallet will ask for two transaction Cofirmations. Please confirm two transactions 1) Vote and 2) Stake"
+      "Wallet will ask for three transaction Cofirmations. Please confirm two transactions 1) Vote and 2) Deposit money into contract 3) Adding Stake for your vote"
     );
     console.log("amount"+ amount);
     await contract
@@ -127,6 +134,8 @@ const Vote = () => {
       .voteMultipleChoice(index, selectedChoices);
     const amountValue = ethers.parseEther(amount);
     await contract.connect(signer).deposit({ value: amountValue });
+    await contract.stake(amount);
+    alert("Voted Successfully. Please wait for sometime to update");
   };
 
   const onChangeIndex = async (e) => {
